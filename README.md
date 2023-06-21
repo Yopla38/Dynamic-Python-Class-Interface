@@ -1,3 +1,6 @@
+![image](https://github.com/Yopla38/Dynamic-Python-Class-Interface/assets/70442829/800d8fa4-f6f6-46e4-9652-9a81884b6ea8)
+
+
 To try : 
 
 pip install -r requirements.txt
