@@ -7,6 +7,8 @@ import os
 import sys
 from functools import partial
 from inspect import signature, Parameter
+
+from PyQt6.QtCore import QCoreApplication
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QScrollArea, QWidget, QCheckBox, QSpinBox, QLabel, QDoubleSpinBox, \
     QLineEdit, QComboBox, QApplication, QHBoxLayout, QPushButton, QFileDialog, QWidgetItem
 
@@ -14,9 +16,18 @@ from example_class import ProcessImage
 
 
 class DynamicConfigWindow(QDialog):
-    def __init__(self, config_class, execute_method: bool = True):
-        super().__init__()
+    app_initiated = False  # Variable de classe pour suivre si l'application a été initiée
 
+    def __init__(self, config_class, execute_method: bool = True):
+        # Vérifier s'il existe déjà une QApplication
+        app = QCoreApplication.instance()
+
+        # Créer une nouvelle QApplication si aucune n'existe et si aucune n'a été initiée auparavant
+        if app is None and not DynamicConfigWindow.app_initiated:
+            app = QApplication(sys.argv)
+            DynamicConfigWindow.app_initiated = True
+
+        super().__init__()
         self.modified_config = None
         self.config_class = config_class  # ajout de l'attribut config_class
 
@@ -209,6 +220,10 @@ class DynamicConfigWindow(QDialog):
 
         scroll.setWidgetResizable(True)
 
+        # Afficher et exécuter le widget
+        self.show()
+        if app is not None:
+            self.exec()
     def open_dynamic_config_window(self, attr_name, attr_type):
         # Obtenir l'attribut actuel
         current_attr = getattr(self.config, attr_name)
