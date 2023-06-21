@@ -1,3 +1,7 @@
+To try : 
+pip install -r requirements.txt
+python main.py
+
 It's simple: I have a class called ProcessImage() without a graphical interface, and I want a graphical interface for testing or other purposes.
 
 Just follow these steps:
